@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useGame } from '@/hooks/useGame';
 import { GameCard } from '@/components/GameCard';
 import { Timer } from '@/components/Timer';
@@ -8,6 +9,7 @@ import { GameOptionsComponent } from '@/components/GameOptions';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
+  const router = useRouter();
   const { gameState, startGame, playCard, reshuffleHand, resetGame, updateOptions, getElapsedTime } = useGame();
 
   return (
@@ -16,6 +18,20 @@ export default function Home() {
         <header className="text-center py-6">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">しりとりカードゲーム</h1>
           <p className="text-gray-600">フィールドの文字で始まり、手札の文字で終わる単語を考えよう！</p>
+          
+          {/* モード選択ボタン */}
+          {!gameState.isGameActive && !gameState.gameFinished && (
+            <div className="mt-4 flex justify-center space-x-4">
+              <Button
+                variant="outline"
+                onClick={() => router.push('/study')}
+                className="flex items-center space-x-2"
+              >
+                <span>📚</span>
+                <span>学習モード</span>
+              </Button>
+            </div>
+          )}
         </header>
 
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
